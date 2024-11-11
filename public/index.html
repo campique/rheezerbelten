@@ -22,55 +22,56 @@
         .logo {
             width: 180px;
             margin-bottom: 1rem;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
         .mascot-container {
-            background-color: white;
-            border-radius: 50%;
-            padding: 1rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 450px;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
         .mascot {
-            width: 180px;
-            height: 180px;
+            width: 160px;
+            height: 160px;
             object-fit: contain;
+            animation: hop 2s ease-in-out infinite;
         }
-        .thought-bubble {
+        @keyframes hop {
+            0%, 50%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-5px); }
+            75% { transform: translateY(-3px); }
+        }
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+        .speech-bubble {
+            position: relative;
             background-color: white;
             border-radius: 20px;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            position: relative;
-            font-size: 1.2rem;
-            max-width: 250px;
+            padding: 15px;
+            max-width: 200px;
             text-align: center;
+            font-size: 1rem;
+            margin-left: 10px;
             opacity: 0;
-            transform: translateY(20px);
             transition: opacity 0.5s, transform 0.5s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .thought-bubble::after {
+        .speech-bubble::before {
             content: '';
             position: absolute;
-            bottom: -20px;
-            left: 50%;
-            border: 10px solid transparent;
-            border-top-color: white;
-            transform: translateX(-50%);
+            left: -15px;
+            top: 50%;
+            border: 8px solid transparent;
+            border-right-color: white;
+            transform: translateY(-50%);
         }
-        .thought-bubble.show {
+        .speech-bubble.show {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(5px);
         }
         .button-container {
             display: grid;
@@ -123,14 +124,6 @@
         .bg-green { background-color: #00c853; }
         .bg-pink { background-color: #ff4081; }
         .bg-blue { background-color: #2979ff; }
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translate(0,  0px); }
-            50%  { transform: translate(0, 15px); }
-            100%   { transform: translate(0, -0px); }   
-        }
         .stars {
             position: absolute;
             width: 100%;
@@ -154,12 +147,11 @@
     
     <img src="https://www.vechtdalproducten.nl/wp-content/uploads/2017/05/rheezerbelten-logo.png" alt="Rheezerbelten Logo" class="logo">
     
-    <div class="mascot-container floating">
+    <div class="mascot-container">
         <img src="https://fcdn.answerly.io/477718fd-e50b-4758-8fcb-7709dedf75ec/6252f73f-ec36-4813-9c2c-dbf42ed04cfa.png" alt="Knof" class="mascot">
-    </div>
-
-    <div id="thoughtBubble" class="thought-bubble">
-        Hoi! Ik ben Knof. Wat wil je doen?
+        <div id="speechBubble" class="speech-bubble">
+            Hoi! Ik ben Knof. Wat wil je doen?
+        </div>
     </div>
 
     <div class="button-container">
@@ -170,15 +162,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const thoughtBubble = document.getElementById('thoughtBubble');
-            const mascot = document.querySelector('.mascot-container');
+            const speechBubble = document.getElementById('speechBubble');
+            const mascot = document.querySelector('.mascot');
 
-            // Toon de gedachtenbubbel na een korte vertraging
             setTimeout(() => {
-                thoughtBubble.classList.add('show');
+                speechBubble.classList.add('show');
             }, 1000);
 
-            // Voeg sterren toe aan de achtergrond
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 50; i++) {
                 const star = document.createElement('div');
@@ -191,7 +181,6 @@
                 starsContainer.appendChild(star);
             }
 
-            // Voeg klik effecten toe aan de knoppen
             const buttons = document.querySelectorAll('.option-button');
             buttons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -200,17 +189,24 @@
                         button.style.transform = '';
                     }, 300);
 
-                    // Verander de tekst in de gedachtenbubbel
-                    thoughtBubble.classList.remove('show');
+                    speechBubble.classList.remove('show');
                     setTimeout(() => {
-                        thoughtBubble.textContent = `Yay! Laten we ${button.textContent.toLowerCase()}!`;
-                        thoughtBubble.classList.add('show');
+                        let newText;
+                        if (button.textContent.includes('Spelletjes')) {
+                            newText = "Leuk, laten we een spelletje spelen! 🎮";
+                        } else if (button.textContent.includes('Interactieve Placemat')) {
+                            newText = "Gaaf! Samen brengen we je placemat tot leven! 🎨";
+                        } else if (button.textContent.includes('Praten met Knof')) {
+                            newText = "Gezellig! Laten we samen kletsen 😊";
+                        }
+                        speechBubble.textContent = newText;
+                        speechBubble.classList.add('show');
                     }, 300);
 
-                    // Laat Knof een sprongetje maken
-                    mascot.style.animation = 'none';
-                    mascot.offsetHeight; // Trigger reflow
-                    mascot.style.animation = 'bounce 0.5s';
+                    mascot.style.animation = 'jump 0.5s';
+                    setTimeout(() => {
+                        mascot.style.animation = 'hop 2s ease-in-out infinite';
+                    }, 500);
                 });
             });
         });
