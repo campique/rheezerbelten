@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rheezerbelten Spelletjes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Fredoka One', cursive;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            overflow: hidden;
+        }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 2rem 1rem;
+        }
+        .logo {
+            width: 180px;
+            margin-bottom: 1rem;
+            margin-top: -2rem;
+        }
+        .mascot-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 1rem;
+        }
+        .mascot {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            animation: hop 2s ease-in-out infinite;
+            z-index: 2;
+        }
+        @keyframes hop {
+            0%, 50%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-5px); }
+            75% { transform: translateY(-3px); }
+        }
+        .speech-bubble {
+            position: absolute;
+            left: 150px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            border-radius: 20px;
+            padding: 15px;
+            max-width: 180px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            border: 6px solid transparent;
+            border-right-color: white;
+            transform: translateY(-50%);
+        }
+        .button-container {
+            display: grid;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 2rem;
+        }
+        .option-button {
+            color: white;
+            font-weight: bold;
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(-5deg);
+        }
+        .option-button:nth-child(2) {
+            transform: rotate(5deg);
+        }
+        .option-button:nth-child(3) {
+            transform: rotate(-3deg);
+        }
+        .option-button:hover {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 6px 8px -2px rgba(0, 0, 0, 0.15);
+        }
+        .option-button:active {
+            transform: scale(0.95) rotate(0deg);
+        }
+        .option-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        .option-button:hover::after {
+            left: 100%;
+            top: 100%;
+        }
+        .bg-green { background-color: #00c853; }
+        .bg-pink { background-color: #ff4081; }
+        .bg-blue { background-color: #2979ff; }
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @media (max-height: 700px) {
+            body {
+                padding: 1rem;
+            }
+            .content-wrapper {
+                padding: 1rem;
+            }
+            .logo {
+                width: 150px;
+                margin-bottom: 0.5rem;
+            }
+            .mascot-container {
+                margin-bottom: 0.5rem;
+            }
+            .mascot {
+                width: 140px;
+                height: 140px;
+            }
+            .button-container {
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+            }
+            .option-button {
+                padding: 0.75rem 1.25rem;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="content-wrapper">
+        <img src="https://www.vechtdalproducten.nl/wp-content/uploads/2017/05/rheezerbelten-logo.png" alt="Rheezerbelten Logo" class="logo">
+        
+        <div class="mascot-container">
+            <img src="https://fcdn.answerly.io/477718fd-e50b-4758-8fcb-7709dedf75ec/6252f73f-ec36-4813-9c2c-dbf42ed04cfa.png" alt="Knof" class="mascot">
+            <div class="speech-bubble">
+                Kies een leuk spelletje om te spelen!
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button class="option-button bg-green" onclick="startGame('4-op-een-rij')">🎲 4 op een rij</button>
+            <button class="option-button bg-pink" onclick="startGame('pannenkoeken-dobble')">🥞 Pannenkoeken Dobble</button>
+            <button class="option-button bg-blue" onclick="startGame('pictionary')">🖍️ Pictionary</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+        });
+
+        function startGame(game) {
+            // Hier kun je de logica toevoegen om het gekozen spel te starten
+            alert(`Je hebt ${game} gekozen! Dit spel wordt binnenkort toegevoegd.`);
+        }
+    </script>
+</body>
+</html>
