@@ -15,12 +15,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 1rem;
+            padding-top: 2rem;
             overflow: hidden;
         }
         .logo {
             width: 180px;
+            margin-top: 1rem;
             margin-bottom: 1rem;
         }
         .mascot-container {
@@ -30,7 +32,7 @@
             justify-content: flex-start;
             width: 100%;
             max-width: 450px;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
         .mascot {
             width: 160px;
@@ -143,6 +145,31 @@
         @keyframes twinkle {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
+        }
+        @media (max-height: 700px) {
+            body {
+                justify-content: flex-start;
+                padding-top: 1rem;
+            }
+            .logo {
+                width: 150px;
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            .mascot-container {
+                margin-bottom: 0.5rem;
+            }
+            .mascot {
+                width: 140px;
+                height: 140px;
+            }
+            .button-container {
+                gap: 0.75rem;
+            }
+            .option-button {
+                padding: 0.75rem 1.25rem;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
