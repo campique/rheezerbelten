@@ -1,1 +1,219 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rheezerbelten Kinderavontuur</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
+        body {
+            margin: 0;
+            font-family: 'Fredoka One', cursive;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            overflow: hidden;
+        }
+        .logo {
+            width: 180px;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .mascot-container {
+            background-color: white;
+            border-radius: 50%;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .mascot {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+        }
+        .thought-bubble {
+            background-color: white;
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            font-size: 1.2rem;
+            max-width: 250px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            border: 10px solid transparent;
+            border-top-color: white;
+            transform: translateX(-50%);
+        }
+        .thought-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .button-container {
+            display: grid;
+            gap: 1rem;
+            width: 100%;
+            max-width: 300px;
+        }
+        .option-button {
+            color: white;
+            font-weight: bold;
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(-5deg);
+        }
+        .option-button:nth-child(2) {
+            transform: rotate(5deg);
+        }
+        .option-button:nth-child(3) {
+            transform: rotate(-3deg);
+        }
+        .option-button:hover {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 6px 8px -2px rgba(0, 0, 0, 0.15);
+        }
+        .option-button:active {
+            transform: scale(0.95) rotate(0deg);
+        }
+        .option-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        .option-button:hover::after {
+            left: 100%;
+            top: 100%;
+        }
+        .bg-green { background-color: #00c853; }
+        .bg-pink { background-color: #ff4081; }
+        .bg-blue { background-color: #2979ff; }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translate(0,  0px); }
+            50%  { transform: translate(0, 15px); }
+            100%   { transform: translate(0, -0px); }   
+        }
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <img src="https://www.vechtdalproducten.nl/wp-content/uploads/2017/05/rheezerbelten-logo.png" alt="Rheezerbelten Logo" class="logo">
+    
+    <div class="mascot-container floating">
+        <img src="https://fcdn.answerly.io/477718fd-e50b-4758-8fcb-7709dedf75ec/6252f73f-ec36-4813-9c2c-dbf42ed04cfa.png" alt="Knof" class="mascot">
+    </div>
+
+    <div id="thoughtBubble" class="thought-bubble">
+        Hoi! Ik ben Knof. Wat wil je doen?
+    </div>
+
+    <div class="button-container">
+        <button class="option-button bg-green">🎮 Spelletjes</button>
+        <button class="option-button bg-pink">🍽️ Interactieve Placemat</button>
+        <button class="option-button bg-blue">💬 Praten met Knof</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const thoughtBubble = document.getElementById('thoughtBubble');
+            const mascot = document.querySelector('.mascot-container');
+
+            // Toon de gedachtenbubbel na een korte vertraging
+            setTimeout(() => {
+                thoughtBubble.classList.add('show');
+            }, 1000);
+
+            // Voeg sterren toe aan de achtergrond
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+
+            // Voeg klik effecten toe aan de knoppen
+            const buttons = document.querySelectorAll('.option-button');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.style.transform = 'scale(0.95) rotate(0deg)';
+                    setTimeout(() => {
+                        button.style.transform = '';
+                    }, 300);
+
+                    // Verander de tekst in de gedachtenbubbel
+                    thoughtBubble.classList.remove('show');
+                    setTimeout(() => {
+                        thoughtBubble.textContent = `Yay! Laten we ${button.textContent.toLowerCase()}!`;
+                        thoughtBubble.classList.add('show');
+                    }, 300);
+
+                    // Laat Knof een sprongetje maken
+                    mascot.style.animation = 'none';
+                    mascot.offsetHeight; // Trigger reflow
+                    mascot.style.animation = 'bounce 0.5s';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
