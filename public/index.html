@@ -224,6 +224,12 @@
                 starsContainer.appendChild(star);
             }
 
+            function navigateToPage(page) {
+                setTimeout(() => {
+                    window.location.href = page;
+                }, 2000); // Aangepast naar 2000 milliseconden (2 seconden)
+            }
+
             const buttons = document.querySelectorAll('.option-button');
             buttons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -235,15 +241,20 @@
                     speechBubble.classList.remove('show');
                     setTimeout(() => {
                         let newText;
+                        let page;
                         if (button.textContent.includes('Spelletjes')) {
                             newText = "Leuk, laten we een spelletje spelen! 🎮";
+                            page = 'spelletjes.html';
                         } else if (button.textContent.includes('Interactieve Placemat')) {
                             newText = "Gaaf! Samen brengen we je placemat tot leven! 🎨";
+                            page = 'placemat.html';
                         } else if (button.textContent.includes('Praten met Knof')) {
                             newText = "Gezellig! Laten we samen kletsen 😊";
+                            page = 'praten.html';
                         }
                         speechBubble.textContent = newText;
                         speechBubble.classList.add('show');
+                        navigateToPage(page);
                     }, 300);
 
                     mascot.style.animation = 'jump 0.5s';
