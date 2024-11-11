@@ -19,6 +19,13 @@
             padding: 2rem 1rem;
             overflow: hidden;
         }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
         .logo {
             width: 180px;
             margin-bottom: 1rem;
@@ -147,6 +154,12 @@
         @media (max-height: 700px) {
             body {
                 padding: 1rem;
+                justify-content: flex-start;
+            }
+            .content-wrapper {
+                margin-top: auto;
+                margin-bottom: auto;
+                padding: 1rem 0;
             }
             .logo {
                 width: 150px;
@@ -172,19 +185,21 @@
 <body>
     <div class="stars" id="stars"></div>
     
-    <img src="https://www.vechtdalproducten.nl/wp-content/uploads/2017/05/rheezerbelten-logo.png" alt="Rheezerbelten Logo" class="logo">
-    
-    <div class="mascot-container">
-        <img src="https://fcdn.answerly.io/477718fd-e50b-4758-8fcb-7709dedf75ec/6252f73f-ec36-4813-9c2c-dbf42ed04cfa.png" alt="Knof" class="mascot">
-        <div id="speechBubble" class="speech-bubble">
-            Hoi! Ik ben Knof. Wat wil je doen?
+    <div class="content-wrapper">
+        <img src="https://www.vechtdalproducten.nl/wp-content/uploads/2017/05/rheezerbelten-logo.png" alt="Rheezerbelten Logo" class="logo">
+        
+        <div class="mascot-container">
+            <img src="https://fcdn.answerly.io/477718fd-e50b-4758-8fcb-7709dedf75ec/6252f73f-ec36-4813-9c2c-dbf42ed04cfa.png" alt="Knof" class="mascot">
+            <div id="speechBubble" class="speech-bubble">
+                Hoi! Ik ben Knof. Wat wil je doen?
+            </div>
         </div>
-    </div>
 
-    <div class="button-container">
-        <button class="option-button bg-green">🎮 Spelletjes</button>
-        <button class="option-button bg-pink">🍽️ Interactieve Placemat</button>
-        <button class="option-button bg-blue">💬 Praten met Knof</button>
+        <div class="button-container">
+            <button class="option-button bg-green">🎮 Spelletjes</button>
+            <button class="option-button bg-pink">🍽️ Interactieve Placemat</button>
+            <button class="option-button bg-blue">💬 Praten met Knof</button>
+        </div>
     </div>
 
     <script>
