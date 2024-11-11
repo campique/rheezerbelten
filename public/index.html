@@ -64,15 +64,15 @@
         .speech-bubble::before {
             content: '';
             position: absolute;
-            left: -10px;
+            left: -10px; /* Adjusted for closer positioning */
             top: 50%;
-            border: 6px solid transparent;
+            border: 6px solid transparent; /* Smaller arrow */
             border-right-color: white;
             transform: translateY(-50%);
         }
         .speech-bubble.show {
             opacity: 1;
-            transform: translateY(-50%) translateX(5px);
+            transform: translateX(5px);
         }
         .button-container {
             display: grid;
