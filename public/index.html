@@ -154,6 +154,18 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+        .language-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1rem;
+        }
         @media (max-height: 700px) {
             body {
                 padding: 1rem;
@@ -184,6 +196,7 @@
     </style>
 </head>
 <body>
+    <button id="languageSwitch" class="language-switch">Deutsch</button>
     <div class="stars" id="stars"></div>
     
     <div class="content-wrapper">
@@ -197,16 +210,42 @@
         </div>
 
         <div class="button-container">
-            <button class="option-button bg-green">🎮 Spelletjes</button>
-            <button class="option-button bg-pink">🍽️ Interactieve Placemat</button>
-            <button class="option-button bg-blue">💬 Praten met Knof</button>
+            <button class="option-button bg-green" data-action="games">🎮 Spelletjes</button>
+            <button class="option-button bg-pink" data-action="placemat">🍽️ Interactieve Placemat</button>
+            <button class="option-button bg-blue" data-action="chat">💬 Praten met Knof</button>
         </div>
     </div>
 
     <script>
+        const translations = {
+            nl: {
+                greeting: "Hoi! Ik ben Knof. Wat wil je doen?",
+                games: "🎮 Spelletjes",
+                placemat: "🍽️ Interactieve Placemat",
+                chat: "💬 Praten met Knof",
+                gamesResponse: "Leuk, laten we een spelletje spelen! 🎮",
+                placematResponse: "Gaaf! Samen brengen we je placemat tot leven! 🎨",
+                chatResponse: "Gezellig! Laten we samen kletsen 😊",
+                switchLanguage: "Deutsch"
+            },
+            de: {
+                greeting: "Hallo! Ich bin Knof. Was möchtest du machen?",
+                games: "🎮 Spiele",
+                placemat: "🍽️ Interaktives Tischset",
+                chat: "💬 Mit Knof sprechen",
+                gamesResponse: "Toll, lass uns ein Spiel spielen! 🎮",
+                placematResponse: "Super! Lass uns dein Tischset zum Leben erwecken! 🎨",
+                chatResponse: "Schön! Lass uns zusammen plaudern 😊",
+                switchLanguage: "Nederlands"
+            }
+        };
+
+        let currentLanguage = 'nl';
+
         document.addEventListener('DOMContentLoaded', function() {
             const speechBubble = document.getElementById('speechBubble');
             const mascot = document.querySelector('.mascot');
+            const languageSwitch = document.getElementById('languageSwitch');
 
             setTimeout(() => {
                 speechBubble.classList.add('show');
@@ -227,7 +266,7 @@
             function navigateToPage(page) {
                 setTimeout(() => {
                     window.location.href = page;
-                }, 2000); // Aangepast naar 2000 milliseconden (2 seconden)
+                }, 2000);
             }
 
             const buttons = document.querySelectorAll('.option-button');
@@ -242,16 +281,23 @@
                     setTimeout(() => {
                         let newText;
                         let page;
-                        if (button.textContent.includes('Spelletjes')) {
-                            newText = "Leuk, laten we een spelletje spelen! 🎮";
-                            page = '/spelletjes/spelletjes.html';
-                        } else if (button.textContent.includes('Interactieve Placemat')) {
-                            newText = "Gaaf! Samen brengen we je placemat tot leven! 🎨";
-                            page = 'placemat.html';
-                        } else if (button.textContent.includes('Praten met Knof')) {
-                            newText = "Gezellig! Laten we samen kletsen 😊";
-                            page = 'praten.html';
+                        const action = button.dataset.action;
+                        
+                        switch(action) {
+                            case 'games':
+                                newText = translations[currentLanguage].gamesResponse;
+                                page = 'spelletjes.html';
+                                break;
+                            case 'placemat':
+                                newText = translations[currentLanguage].placematResponse;
+                                page = 'placemat.html';
+                                break;
+                            case 'chat':
+                                newText = translations[currentLanguage].chatResponse;
+                                page = 'praten.html';
+                                break;
                         }
+                        
                         speechBubble.textContent = newText;
                         speechBubble.classList.add('show');
                         navigateToPage(page);
@@ -263,6 +309,20 @@
                     }, 500);
                 });
             });
+
+            languageSwitch.addEventListener('click', () => {
+                currentLanguage = currentLanguage === 'nl' ? 'de' : 'nl';
+                updateLanguage();
+            });
+
+            function updateLanguage() {
+                speechBubble.textContent = translations[currentLanguage].greeting;
+                buttons.forEach(button => {
+                    const action = button.dataset.action;
+                    button.textContent = translations[currentLanguage][action];
+                });
+                languageSwitch.textContent = translations[currentLanguage].switchLanguage;
+            }
         });
     </script>
 </body>
